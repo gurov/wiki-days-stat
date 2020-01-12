@@ -29,6 +29,8 @@ const months = [
     'December'
 ];
 
+
+
 const months2 = {};
 months.forEach((m, i) => {
     months2[m] = i;
@@ -38,7 +40,7 @@ months.forEach((m, i) => {
 
 const y = d3.scaleLinear().range([innerRadius, outerRadius]);
 
-const zClasses = ['Holidays_and_observances', 'Events', 'Births', 'Deaths'];
+const zClasses = ['Holidays & observances', 'Events', 'Births', 'Deaths'];
 const colors = ['#c40000', '#ece90e', '#49ec0e', '#444444'];
 const columnNames = ['holidays_and_observances', 'events', 'births', 'deaths']
 
@@ -168,7 +170,9 @@ d3.json('./en-events.json', (error, data) => {
 
     label.append('text')
         .attr('transform', (d, j) => (x(j) + x.bandwidth() / 2 + Math.PI / 2) % (2 * Math.PI) < Math.PI ? 'rotate(90)translate(0,16)' : 'rotate(-90)translate(0,-9)')
-        .text((d, j) => j === 0 ? '1 января' : '');
+        .text((d, j) => (d.day.split('_')[1] === '15')
+            ? d.day.substr(0, 3).toLowerCase()
+        : '');
 
     // Legend
     const legend = g.append('g')
